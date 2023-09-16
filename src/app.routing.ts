@@ -6,7 +6,8 @@ import AppEmptyLayout from './shared/layouts/AppEmptyLayout';
 
 import { initDataResolver } from './shared/resolvers/initData.resolver';
 
-import { homeRouting } from './modules/home/home.routing'
+import { homeRouting } from './modules/home/home.routing';
+import { authRouting } from './modules/auth/auth.routing';
 
 const appRouting: RouteObject[] = [
   {
@@ -20,6 +21,12 @@ const appRouting: RouteObject[] = [
         children: homeRouting,
       },
 
+      {
+        path: 'auth',
+        Component: AppEmptyLayout,
+        children: authRouting,
+      },
+      
       {
         path: '*',
         Component: AppNoMatch,
