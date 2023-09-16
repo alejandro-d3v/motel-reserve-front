@@ -1,0 +1,21 @@
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm ci
+            - echo "VITE_APP_NAME=$VITE_APP_NAME" >> .env
+            - echo "VITE_APP_FAVICON=$VITE_APP_FAVICON" >> .env
+            - echo "VITE_APP_LOGO=$VITE_APP_LOGO" >> .env
+            - echo "VITE_COLOR_PRIMARY=$VITE_COLOR_PRIMARY" >> .env
+            - echo "VITE_COLOR_SECONDARY=$VITE_COLOR_SECONDARY" >> .env
+        build:
+          commands:
+            - npm run build
+      artifacts:
+        baseDirectory: dist
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
