@@ -5,10 +5,10 @@ import HomeLayout from "../layouts/HomeLayout";
 
 export default function Room() {
   const params = useParams(); 
-  console.log(params);  
+  console.log(params);
 
   return (
-    <HomeLayout>
+    <HomeLayout pageName='Room'>
       <h1>ROOM</h1>
     </HomeLayout>
   );
