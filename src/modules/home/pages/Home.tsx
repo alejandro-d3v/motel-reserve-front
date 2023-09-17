@@ -49,15 +49,7 @@ export default function Home() {
 
       <section className="bg-gray-100 py-12">
         <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {rooms.map((room) => (
-            <RoomCard
-              key={room.id}
-              title={room.title}
-              description={room.description}
-              price={room.price}
-              imageUrl={room.imageUrl}
-            />
-          ))}
+          {rooms.map((room) => <RoomCard {...room} /> )}
         </div>
       </section>
     </HomeLayout>
