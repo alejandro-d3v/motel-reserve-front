@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 
 import './styles/AppAdminLayout.css';
 
+import AppNavbar from './AppNavbar';
 import AppSidebar from './AppSidebar';
 
 export default function AppAdminLayout() {
@@ -18,17 +19,7 @@ export default function AppAdminLayout() {
       <AppSidebar isVisible={isSidebarVisible} />
 
       <div className={`content ${!isSidebarVisible ? 'expand' : ''}`}>
-        <div className="navbar">
-          <div className="toggle-sidebar" onClick={toggleSidebar}>&#9776;</div>
-
-          <div className="user-menu">
-            <span>Usuario</span>
-            <div className="user-menu-dropdown">
-              <a href="#">Perfil</a>
-              <a href="#">Cerrar Sesión</a>
-            </div>
-          </div>
-        </div>
+        <AppNavbar toggleSidebar={toggleSidebar} />
 
         <div>
           <Outlet />
