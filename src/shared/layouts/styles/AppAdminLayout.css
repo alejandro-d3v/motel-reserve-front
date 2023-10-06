@@ -1,0 +1,89 @@
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  left: -16rem;
+  top: 0;
+
+  width: 16rem;
+  height: 100%;
+
+  background-color: #333;
+
+  overflow-x: hidden;
+  transition: 0.3s;
+}
+.sidebar.show {
+  left: 0;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+.sidebar li {
+  padding: 10px;
+  color: #fff;
+}
+
+/* Contenido principal */
+.content {
+  margin-left: 16rem; /* Ancho del Sidebar */
+
+  background-color: pink;
+  transition: 0.3s;
+}
+.content.expand {
+  margin-left: 0;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%!important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+/* Botón para alternar el Sidebar (Hamburguesa) */
+.toggle-sidebar {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Icono de usuario con menú desplegable */
+.user-menu {
+  position: relative;
+  cursor: pointer;
+}
+.user-menu span {
+  margin-right: 10px;
+}
+.user-menu-dropdown {
+  display: none;
+  position: absolute;
+  top: 30px;
+  right: 0;
+  background-color: #333;
+  min-width: 120px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.user-menu:hover .user-menu-dropdown {
+  display: block;
+}
+
+.user-menu-dropdown a {
+  color: #fff;
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.user-menu-dropdown a:hover {
+  background-color: #555;
+}
