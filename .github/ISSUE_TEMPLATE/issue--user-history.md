@@ -7,14 +7,11 @@ assignees: ''
 
 ---
 
-## Usuario
-<Rol al que va dirigido>
+**Usuario:** <Rol al que va dirigido>
+**Nombre Historia:** <Título descriptivo>
 
-## Nombre Historia
-<Título descriptivo>
-
-## Descripción
+**Descripción**
 <Descripción preciso de la historia de usuario>
 
-## Validación:
-- <lista de validaciones>
+**Validación**
+<validacione a considerar>
