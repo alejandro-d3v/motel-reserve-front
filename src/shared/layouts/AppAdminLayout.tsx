@@ -4,8 +4,10 @@ import { Outlet } from 'react-router-dom';
 
 import './styles/AppAdminLayout.css';
 
+import AppSidebar from './AppSidebar';
+
 export default function AppAdminLayout() {
-  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
   const toggleSidebar = () => {
     setIsSidebarVisible(!isSidebarVisible);
@@ -13,13 +15,7 @@ export default function AppAdminLayout() {
 
   return (
     <div>
-      <div className={`sidebar ${isSidebarVisible ? 'show' : ''}`}>
-        <ul>
-          <li>Inicio</li>
-          <li>Configuración</li>
-          <li>Perfil</li>
-        </ul>
-      </div>
+      <AppSidebar isVisible={isSidebarVisible} />
 
       <div className={`content ${!isSidebarVisible ? 'expand' : ''}`}>
         <div className="navbar">
