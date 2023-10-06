@@ -3,11 +3,14 @@ import { RouteObject } from "react-router-dom";
 
 import AppNoMatch from "./shared/layouts/AppNoMatch";
 import AppEmptyLayout from './shared/layouts/AppEmptyLayout';
+import AppAdminLayout from './shared/layouts/AppAdminLayout';
 
 import { initDataResolver } from './shared/resolvers/initData.resolver';
 
 import { homeRouting } from './modules/home/home.routing';
 import { authRouting } from './modules/auth/auth.routing';
+
+import { adminRoomsRouting } from './modules/adminRooms/adminRooms.routing';
 
 const appRouting: RouteObject[] = [
   {
@@ -25,6 +28,12 @@ const appRouting: RouteObject[] = [
         path: 'auth',
         Component: AppEmptyLayout,
         children: authRouting,
+      },
+
+      {
+        path: 'admin-rooms',
+        Component: AppAdminLayout,
+        children: adminRoomsRouting,
       },
       
       {
