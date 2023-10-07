@@ -1,6 +1,11 @@
 # Proyecto motel-reserve-front con React + Vite + TypeScript
 Este proyecto es un sistema diseñado para facilitar y gestionar las reservas de un motel. Los administradores tendrán la capacidad de acceder a informes generados por el sistema, los cuales contendrán información valiosa sobre las reservas y su estado. El sistema está desarrollado con React utilizando Vite como bundler y TypeScript como lenguaje de programación.
 
+## Diagrama de Arquitectura
+Esta sección muestra el diagrama de arquitectura de nuestro proyecto.
+
+![Diagrama de Arquitectura](https://motel-reserve.s3.amazonaws.com/files/static/images/motel-reserve-diagrama.png)
+
 ## Despliegues
 ### Branch Develop
 - **URL del Despliegue:** [Enlace a Develop](https://develop.d39eiglj56hhon.amplifyapp.com/)
