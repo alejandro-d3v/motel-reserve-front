@@ -1,0 +1,10 @@
+/* Contenido principal */
+.content {
+  margin-left: 16rem; /* Ancho del Sidebar */
+
+  background-color: pink;
+  transition: 0.3s;
+}
+.content.expand {
+  margin-left: 0;
+}
