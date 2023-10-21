@@ -4,9 +4,10 @@ export default function AppSidebar({ isVisible  }: { isVisible: boolean }) {
   return (
     <div className={`sidebar ${isVisible ? 'show' : ''}`}>
       <ul>
-        <li>Inicio</li>
-        <li>Configuración</li>
-        <li>Perfil</li>
+        <li>Dashboard</li>
+        <li>Gestión de Reservas</li>
+        <li>Gestión de Espacios deportivos</li>
+        <li>Reportes</li>
       </ul>
     </div>
   );
