@@ -23,7 +23,7 @@ export default function Room() {
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
-        setTimeout(() => setLoading(false), 1000);
+        setTimeout(() => setLoading(false), 500);
       }
     };
 
