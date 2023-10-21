@@ -2,31 +2,62 @@ import "../styles/Login.css";
 
 export default function Register() {
   return (
-    <div className="login-container">
-      <h2>Registro</h2>
+    <>
+      <div className="min-h-screen flex items-center justify-center bg-primary">
+        <div className="bg-white p-8 rounded-lg shadow-lg w-2/4">
+          <h2 className="text-2xl font-semibold mb-4">Registro</h2>
 
-      <form action="#">
+          <form>
+            <div className="mb-4">
+              <label htmlFor="nombre-establecimiento" className="block text-sm font-medium text-gray-700">Nombre del Establecimiento</label>
+              <input 
+                type="text" 
+                id="nombre-establecimiento" 
+                name="nombre-establecimiento" 
+                className="mt-1 p-2 outline-none rounded-md w-full text-secondary shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-inset focus:ring-quaternary" 
+                required 
+              />
+            </div>
 
-        <div className="form-group">
-          <label htmlFor="name">Nombre Establecimiento:</label>
-          <input type="text" id="name" name="name" required className="w-full md:w-1/2" />
-          {/* La clase "w-full" hará que el ancho sea del 100% en dispositivos pequeños y "md:w-1/2" en dispositivos medianos */}
+            <div className="mb-4">
+              <label htmlFor="usuario" className="block text-sm font-medium text-gray-700">Usuario</label>
+              <input 
+                type="text" 
+                id="usuario" 
+                name="usuario" 
+                className="mt-1 p-2 outline-none rounded-md w-full text-secondary shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-inset focus:ring-quaternary" 
+                required 
+              />
+            </div>
+
+            <div className="flex space-x-4 mb-4">
+              <div className="flex-1">
+                <label htmlFor="contrasena" className="block text-sm font-medium text-gray-700">Contraseña</label>
+                <input 
+                  type="password" 
+                  id="contrasena" 
+                  name="contrasena" 
+                  className="mt-1 p-2 outline-none rounded-md w-full text-secondary shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-inset focus:ring-quaternary" 
+                  required 
+                />
+              </div>
+
+              <div className="flex-1">
+                <label htmlFor="confirmar-contrasena" className="block text-sm font-medium text-gray-700">Confirmar Contraseña</label>
+                <input 
+                  type="password" 
+                  id="confirmar-contrasena" 
+                  name="confirmar-contrasena" 
+                  className="mt-1 p-2 outline-none rounded-md w-full text-secondary shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-inset focus:ring-quaternary" 
+                  required 
+                />
+              </div>
+            </div>
+
+            <button type="submit" className="bg-quaternary text-white p-2 rounded-md w-full">Registrarse</button>
+          </form>
         </div>
-
-        <div className="form-group">
-          <label htmlFor="username">Usuario:</label>
-          <input type="text" id="username" name="username" required className="w-full md:w-1/2" />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="password">Contraseña:</label>
-          <input type="password" id="password" name="password" required className="w-full md:w-1/2" />
-        </div>
-
-        <button type="submit" className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Registrarse
-        </button>
-      </form>
-    </div>
+      </div>
+    </>
   );
 }
