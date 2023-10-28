@@ -10,7 +10,9 @@ import { initDataResolver } from './shared/resolvers/initData.resolver';
 import { homeRouting } from './modules/home/home.routing';
 import { authRouting } from './modules/auth/auth.routing';
 
+import { adminHomeRouting } from "./modules/adminHome/adminHome.routing";
 import { adminRoomsRouting } from './modules/adminRooms/adminRooms.routing';
+import { accessRouting } from "./modules/access/access.routing";
 
 const appRouting: RouteObject[] = [
   {
@@ -28,6 +30,18 @@ const appRouting: RouteObject[] = [
         path: 'auth',
         Component: AppEmptyLayout,
         children: authRouting,
+      },
+
+      {
+        path: 'admin',
+        Component: AppAdminLayout,
+        children: adminHomeRouting,
+      },
+
+      {
+        path: 'access',
+        Component: AppAdminLayout,
+        children: accessRouting,
       },
 
       {
