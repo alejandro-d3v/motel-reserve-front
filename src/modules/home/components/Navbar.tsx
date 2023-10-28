@@ -13,14 +13,8 @@ export default function Navbar() {
       </Link>
 
       <div className="space-x-2">
-        <Link to="/auth/register">
-          <button className="bg-tertiary text-secondary px-4 py-2 rounded-full">
-            Registrarse
-          </button>
-        </Link>
-
         <Link to="/auth/login">
-          <button className="border-solid border border-tertiary text-tertiary px-4 py-2 rounded-full hover:bg-tertiary hover:text-secondary">
+          <button className="bg-tertiary text-secondary px-4 py-2 rounded-full">
             Iniciar Sesión
           </button>
         </Link>

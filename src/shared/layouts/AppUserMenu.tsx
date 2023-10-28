@@ -2,13 +2,20 @@ import './styles/AppUserMenu.css';
 
 export default function AppUserMenu() {
   return (
-    <div className="user-menu">
-      <span>Usuario</span>
-
-      <div className="user-menu-dropdown">
-        <a href="#">Perfil</a>
-        <a href="#">Cerrar Sesión</a>
+    <div className="dropdown dropdown-end">
+      <div tabIndex={0} className="border-solid border-2 rounded-full w-10 h-10 flex justify-center text-white items-center cursor-pointer hover:bg-white hover:text-primary">
+        <span className='text-lg'>A</span>
       </div>
+
+      <ul tabIndex={0} className="menu menu-sm dropdown-content mt-1 z-[1] p-2 shadow bg-base-100 rounded w-52">
+        <li>
+          <a className="p-2">Profile</a>
+        </li>
+
+        <li>
+          <a className='p-2'>Logout</a>
+        </li>
+      </ul>
     </div>
   );
 }
