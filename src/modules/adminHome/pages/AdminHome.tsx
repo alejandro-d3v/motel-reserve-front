@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function AdminHome() {
-  const [services, setServices] = useState([
+  const [services] = useState([
     {
       id: 1,
       name: 'Cancha de Microfútbol',

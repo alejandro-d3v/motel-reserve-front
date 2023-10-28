@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function Users() {
-  const [users, setUsers] = useState([
+  const [users] = useState([
     {
       id: 1,
       roleId: 1,
