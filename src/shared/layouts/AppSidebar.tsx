@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 import './styles/AppSidebar.css';
 
 export default function AppSidebar({ isVisible  }: { isVisible: boolean }) {
