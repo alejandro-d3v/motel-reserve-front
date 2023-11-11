@@ -1,61 +1,95 @@
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import "../styles/Login.css";
 
+import { LoginService } from "../services/login.service";
+
+const loginService = new LoginService();
+
 export default function Login() {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleFormSubmit = (e: any) => {
-    e.preventDefault();
-
-    console.log('form', { userName, password });
-
-    navigate('/admin/home');
+  const login = () => {
+    setLoading(true);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const dataSend = { username, password };
+
+        await loginService.run(dataSend);
+
+        // navigate('/admin/home');
+      } catch (e) {
+        console.log('err', e);
+      }
+
+      setTimeout(() => {setLoading(false)}, 500)
+    };
+
+    if (loading) fetchData();
+  }, [loading]);
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-primary">
-        <div className="bg-white p-8 rounded-lg shadow-lg w-1/4">
-          <h2 className="text-2xl font-semibold mb-4">Iniciar Sesión</h2>
+      <div className="hero min-h-screen bg-primary">
+        <div className="hero-content card flex-col lg:flex-row-reverse gap-1 bg-base-100 shadow-2xl">
+          <div className="text-center p-8 pb-1 lg:pb-8">
+            <h1 className="text-5xl font-bold">¡Bienvenido!</h1>
+            <p className="py-6">Inicia sesión para acceder al Panel de Administración.</p>
+          </div>
 
-          <form onSubmit={handleFormSubmit}>
-            <div className="mb-4">
-              <label htmlFor="usuario" className="block text-sm font-medium text-gray-700">Usuario</label>
-              <input 
-                type="text" 
-                id="usuario" 
-                name="usuario" 
-                className="mt-1 p-2 outline-none rounded-md w-full text-secondary shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-inset focus:ring-quaternary" 
-                required 
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-              />
-            </div>
+          <div className="divider lg:divider-horizontal m-0"></div> 
 
-            <div className="mb-4">
-              <label htmlFor="contrasena" className="block text-sm font-medium text-gray-700">Contraseña</label>
-              <input 
-                type="password" 
-                id="contrasena" 
-                name="contrasena" 
-                className="mt-1 p-2 outline-none rounded-md w-full text-secondary shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-inset focus:ring-quaternary" 
-                required 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+          <div className="card flex-shrink-0 w-full max-w-sm">
+            <form className="card-body">
+              {loading &&  (
+                <div className="text-center">
+                  <span className="loading loading-dots loading-lg"></span>
+                </div>
+              )}
 
-            <button type="submit" className="bg-quaternary text-white p-2 rounded-md w-full">Iniciar Sesión</button>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Usuario</span>
+                </label>
 
-            <div className="forgot-password">
-              <a href="#">¿Olvidaste tu contraseña?</a>
-            </div>
-          </form>
+                <input 
+                  type="email" placeholder="Usuario" 
+                  className="input input-bordered" 
+                  autoComplete="current-password"
+                  value={ username } disabled={ loading }
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Contraseña</span>
+                </label>
+
+                <input 
+                  type="password" placeholder="Contraseña" 
+                  className="input input-bordered" 
+                  autoComplete="current-password"
+                  value={ password } disabled={ loading }
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+
+              <div className="form-control mt-6">
+                <button className="btn btn-primary" disabled={ loading } onClick={ login }>
+                  Login
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </>

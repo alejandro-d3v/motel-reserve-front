@@ -5,10 +5,14 @@ import { RouterProvider } from 'react-router-dom';
 
 import { router } from './app.routing';
 
+import AppToast from './shared/components/AppToast';
+
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <RouterProvider router={ router } />
+
+    <AppToast />
   </React.StrictMode>,
 )
