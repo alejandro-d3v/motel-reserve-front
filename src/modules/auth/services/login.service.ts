@@ -3,7 +3,9 @@ import axios from '../../../shared/utils/axios';
 
 import { TokenService } from '../../../shared/services/token.service';
 import { SignOutService } from '../../../shared/services/signOut.service';
+import { AuthenticatedUserService } from '../../../shared/services/authenticatedUser.service';
 
+const authenticatedUserService = AuthenticatedUserService();
 const signOutService = new SignOutService();
 const tokenService = new TokenService();
 
@@ -18,8 +20,9 @@ export class LoginService {
       signOutService.run();
 
       tokenService.set(response.data.token);
+      authenticatedUserService.set(response.data.user);
 
-      return response;
+      return response.data;
     });
   }
 }

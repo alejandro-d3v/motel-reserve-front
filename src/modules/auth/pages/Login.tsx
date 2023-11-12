@@ -1,14 +1,15 @@
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import "../styles/Login.css";
+import { useAuthenticatedUserStore } from "../../../shared/stores/authenticatedUserStore";
 
 import { LoginService } from "../services/login.service";
 
 const loginService = new LoginService();
 
 export default function Login() {
-  // const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { set } = useAuthenticatedUserStore();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -23,14 +24,15 @@ export default function Login() {
       try {
         const dataSend = { username, password };
 
-        await loginService.run(dataSend);
+        const res = await loginService.run(dataSend);
+        set(res.user);
 
-        // navigate('/admin/home');
+        navigate('/admin/home');
       } catch (e) {
         console.log('err', e);
       }
 
-      setTimeout(() => {setLoading(false)}, 500)
+      setLoading(false);
     };
 
     if (loading) fetchData();
