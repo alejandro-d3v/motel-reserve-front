@@ -1,23 +1,21 @@
-// import { useAuthenticatedUserStore } from "../stores/AuthenticatedUserStore";
+import { useAuthenticatedUserStore } from "../stores/authenticatedUserStore";
 
 import { UserDto } from "../dto/user.dto";
 
-export function AuthenticatedUserService() {
-  const key = 'user';
+export class AuthenticatedUserService {
+  private key = 'user';
 
-  function get(): UserDto | null {
-    const user = localStorage.getItem(key);
+  get(): UserDto | null {
+    const user = localStorage.getItem(this.key);
 
     if (user) return JSON.parse(user);
     return null;
   }
 
-  function set(user: UserDto): void {
-    localStorage.setItem(key, JSON.stringify(user));
-  }
+  set(user: UserDto): void {
+    localStorage.setItem(this.key, JSON.stringify(user));
 
-  return {
-    get,
-    set
-  };
+    const store = useAuthenticatedUserStore.getState();
+    store.set(user);
+  }
 }

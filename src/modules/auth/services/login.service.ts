@@ -5,7 +5,7 @@ import { TokenService } from '../../../shared/services/token.service';
 import { SignOutService } from '../../../shared/services/signOut.service';
 import { AuthenticatedUserService } from '../../../shared/services/authenticatedUser.service';
 
-const authenticatedUserService = AuthenticatedUserService();
+const authenticatedUserService = new AuthenticatedUserService();
 const signOutService = new SignOutService();
 const tokenService = new TokenService();
 

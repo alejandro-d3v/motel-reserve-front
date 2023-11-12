@@ -1,19 +1,23 @@
+import { useAuthenticatedUserStore } from '../stores/authenticatedUserStore';
+
 import './styles/AppSidebar.css';
 
 export default function AppSidebar({ isVisible  }: { isVisible: boolean }) {
+  const { user } = useAuthenticatedUserStore();
+
   return (
     <div className={`sidebar bg-primary ${isVisible ? 'show' : ''} px-2 pt-3`}>
       <div className="flex items-center justify-center flex-col">
         <div className='border-2 w-16 h-16 rounded-full flex items-center justify-center text-white'>
-          <span className='text-3xl'>A</span>
+          <span className='text-3xl uppercase'>{user ? user.names.charAt(0) : '-'}</span>
         </div>
 
         <div className='mt-2 text-white'>
           <div className='text-center'>
-            <span>Angel Baldomero Minguez Pina</span>
+            <span>{`${user?.names} ${user?.lastNames}`}</span>
           </div>
           <div className='text-center'>
-            <span className='text-white text-opacity-70'>Administrador</span>
+            <span className='text-white text-opacity-70'>Administrador / {user?.roleId}</span>
           </div>
         </div>
       </div>

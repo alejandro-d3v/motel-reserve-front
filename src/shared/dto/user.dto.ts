@@ -1,4 +1,5 @@
 import { TimestampDto } from './timestamp.dto';
+import { RoleDto } from './role.dto';
 
 export interface UserDto extends TimestampDto {
   id: number;
@@ -9,4 +10,8 @@ export interface UserDto extends TimestampDto {
   avatar: any;
   user: string;
   password: string;
+}
+
+export interface MeDto extends UserDto {
+  role: RoleDto;
 }
