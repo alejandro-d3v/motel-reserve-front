@@ -1,4 +1,5 @@
 import { useState } from "react";
+import imgTemp from '../../../../public/imgs/wallhaven-455xk8_1280x1024.png';
 
 export default function AdminHome() {
   const [services] = useState([
@@ -84,7 +85,7 @@ export default function AdminHome() {
         <div className="grid grid-cols-3 gap-4">
           {services.map((service) => (
             <div key={service.id} className="card card-compact bg-base-100 shadow-xl">
-              <figure><img src="/public/imgs/banner.jpg" alt="img" /></figure>
+              <figure><img src={imgTemp} alt="img" /></figure>
 
               <div className="card-body">
                 <div className="flex justify-end">
