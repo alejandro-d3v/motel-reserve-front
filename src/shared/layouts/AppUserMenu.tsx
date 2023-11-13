@@ -12,7 +12,8 @@ export default function AppUserMenu() {
   const logout = () => {
     try {
       signOutService.run();
-      window.location.reload();
+
+      setTimeout(() => window.location.reload(), 800);
     } catch (e) {
       console.log('err', e);
     }
@@ -41,9 +42,13 @@ export default function AppUserMenu() {
         </li>
 
         <li>
-          <div className='cursor-pointer p-2' onClick={ logout }>
+          {/* <div className='cursor-pointer p-2' onClick={ logout }>
             Cerrar sesión
-          </div>
+          </div> */}
+
+          <Link to="/" className="cursor-pointer p-2" onClick={ logout }>
+            Cerrar sesión
+          </Link>
         </li>
       </ul>
     </div>

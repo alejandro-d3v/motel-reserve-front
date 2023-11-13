@@ -5,6 +5,7 @@ import AppNoMatch from "./shared/layouts/AppNoMatch";
 import AppEmptyLayout from './shared/layouts/AppEmptyLayout';
 import AppAdminLayout from './shared/layouts/AppAdminLayout';
 
+import { authGuard } from "./shared/resolvers/auth.guard";
 import { initDataResolver } from './shared/resolvers/initData.resolver';
 
 import { homeRouting } from './modules/home/home.routing';
@@ -35,18 +36,21 @@ const appRouting: RouteObject[] = [
       {
         path: 'admin',
         Component: AppAdminLayout,
+        loader: authGuard,
         children: adminHomeRouting,
       },
 
       {
         path: 'access',
         Component: AppAdminLayout,
+        loader: authGuard,
         children: accessRouting,
       },
 
       {
         path: 'admin-rooms',
         Component: AppAdminLayout,
+        loader: authGuard,
         children: adminRoomsRouting,
       },
       
