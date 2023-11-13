@@ -7,7 +7,7 @@ export default {
     extend: {
       colors: {
         primary: '#1D1D1D',
-        secondary: '#282828 ',
+        secondary: '#282828',
         tertiary: '#BAF4FF',
         quaternary: '#7180B7',
         // primary: settings.colors.primary,

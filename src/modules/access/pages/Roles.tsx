@@ -1,86 +1,135 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import RoleForm from "../components/RoleForm";
+import AppLoading from "../../../shared/components/AppLoading";
+import AppModal from "../../../shared/components/Modal/AppModal";
+import AppEmptyResponse from "../../../shared/components/AppEmptyResponse";
+
+import { RoleDto } from "../../../shared/dto/role.dto";
+
+import { GetRolesService } from "../services/getRoles.service";
+import { DeleteRoleService } from "../services/deleteRole.service";
+import AppConfirmDeleteModal from "../../../shared/components/Modal/AppConfirmDeleteModal";
+
+const deleteRoleService = new DeleteRoleService();
+const getRolesService = new GetRolesService();
 
 export default function Roles() {
-  const [roles, setRoles] = useState([
-    {
-      id: 1,
-      name: 'Administrador',
-      description: 'Rol de administrador con todos los permisos.',
-      createdAt: '2023-10-26 10:00:00',
-      updatedAt: '2023-10-26 10:00:00',
-    },
-    {
-      id: 2,
-      name: 'Usuario',
-      description: 'Rol de usuario estándar con permisos limitados.',
-      createdAt: '2023-10-26 11:00:00',
-      updatedAt: '2023-10-26 11:00:00',
-    },
-  ]);
+  const [roles, setRoles] = useState<RoleDto[] | []>([]);
+  const [role, setRole] = useState<RoleDto | null>(null);
 
-  const [newRole, setNewRole] = useState({ name: '', description: '' });
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [formModal, setFormModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const handleAddRole = () => {
-    if (newRole.name && newRole.description) {
-      setRoles([...roles, { id: roles.length + 1, ...newRole, createdAt: new Date().toString(), updatedAt: new Date().toString() }]);
-      setNewRole({ name: '', description: '' });
+  useEffect(() => {
+    const getRoles = async () => {
+      setLoading(true);
+
+      try {
+        setRoles(await getRolesService.run());
+      } catch (e) {
+        console.error('err:', e);
+        setLoading(false);
+      }
+
+      setLoading(false);
+    };
+
+    getRoles();
+  }, []);
+
+  const openFormModal = (role: RoleDto | null = null) => {
+    setFormModal(true);
+    setRole(role);
+  };
+  const closeModalForm = async (d: any = null) => {
+    if (!d || d.target.id != 'btnCloseModal') {
+      try {
+        setRoles(await getRolesService.run());
+      } catch (e) {
+        console.log('err', e);
+      }
     }
+
+    setFormModal(false);
+    setRole(null);
+  };
+
+  const openDeleteModal = (role: RoleDto) => {
+    console.log('openDeleteModal');
+
+    setDeleteModal(true);
+    setRole(role);
+  };
+  const closeDeleteModal = async (d: any = null) => {
+    if (d.target.id != 'btnCloseModal') {
+      if (role) {
+        try {
+          await deleteRoleService.run(role.id);
+
+          setRoles(await getRolesService.run());
+        } catch (e) {
+          console.log('err', e);
+        }
+      }
+    }
+
+    setDeleteModal(false);
+    setRole(null);
   };
 
   return (
     <>
       <div className="px-8 pt-4">
-        <h1 className="text-3xl font-semibold mb-4">Roles</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-3xl font-semibold mb-0">Roles</h1>
 
-        <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">Crear Nuevo Rol</h2>
-          <div className="flex space-x-4">
-            <input
-              type="text"
-              placeholder="Nombre del Rol"
-              className="p-2 border rounded-md flex-grow"
-              value={newRole.name}
-              onChange={(e) => setNewRole({ ...newRole, name: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Descripción"
-              className="p-2 border rounded-md flex-grow"
-              value={newRole.description}
-              onChange={(e) => setNewRole({ ...newRole, description: e.target.value })}
-            />
-            <button className="bg-primary text-white p-2 rounded-md" onClick={handleAddRole}>
-              Agregar Rol
-            </button>
-          </div>
+          <button className="btn btn-neutral" disabled={ loading } onClick={ () => openFormModal() }>
+            Agregar Rol
+          </button>
         </div>
 
-        <div className="divider"></div> 
+        <div className="divider"></div>
 
-        <div className="grid grid-cols-3 gap-4">
-          {roles.map((item) => (
-            <div key={item.id} className="card card-compact bg-base-100 shadow-xl">
-              <div className="card-body">
+        {loading ? ( <AppLoading /> ) : (
+          <>
+            { !roles.length ? ( <AppEmptyResponse /> ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {roles.map((item) => (
+                  <div key={item.id} className="card card-compact bg-base-100 shadow-xl">
+                    <div className="card-body">
+                      <h2 className="card-title">{item.name}</h2>
 
-                <h2 className="card-title">{item.name}</h2>
+                      <p>{item.description}</p>
 
-                <p>{item.description}</p>
+                      <div className="card-actions justify-end">
+                        <div className="join">
+                          <button className="btn btn-sm join-item btn-outline btn-neutral" onClick={ () => openDeleteModal(item) }>
+                            Eliminar
+                          </button>
 
-                <div className="divider my-2"></div> 
-
-                <div className="card-actions justify-between">
-                  <button className="btn btn-sm btn-neutral">Permisos</button>
-
-                  <div className="join">
-                    <button className="btn btn-sm join-item btn-outline btn-neutral">Eliminar</button>
-                    <button className="btn btn-sm join-item btn-outline btn-neutral">Editar</button>
+                          <button className="btn btn-sm join-item btn-outline btn-neutral" onClick={ () => openFormModal(item) }>
+                            Editar
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-            </div>
-          ))}
-        </div>
+            )}
+          </>
+        )}
       </div>
+
+      <AppModal isOpen={ formModal } onClose={ closeModalForm }>
+        <RoleForm data={ role } onClose={ closeModalForm } />
+      </AppModal>
+
+      <AppModal isOpen={ deleteModal } onClose={ closeDeleteModal }>
+        <AppConfirmDeleteModal onClose={ closeDeleteModal } />
+      </AppModal>
     </>
   );
 }
