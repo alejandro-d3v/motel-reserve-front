@@ -5,12 +5,15 @@ import AppNoMatch from "./shared/layouts/AppNoMatch";
 import AppEmptyLayout from './shared/layouts/AppEmptyLayout';
 import AppAdminLayout from './shared/layouts/AppAdminLayout';
 
+import { authGuard } from "./shared/resolvers/auth.guard";
 import { initDataResolver } from './shared/resolvers/initData.resolver';
 
 import { homeRouting } from './modules/home/home.routing';
 import { authRouting } from './modules/auth/auth.routing';
 
+import { adminHomeRouting } from "./modules/adminHome/adminHome.routing";
 import { adminRoomsRouting } from './modules/adminRooms/adminRooms.routing';
+import { accessRouting } from "./modules/access/access.routing";
 
 const appRouting: RouteObject[] = [
   {
@@ -31,8 +34,23 @@ const appRouting: RouteObject[] = [
       },
 
       {
+        path: 'admin',
+        Component: AppAdminLayout,
+        loader: authGuard,
+        children: adminHomeRouting,
+      },
+
+      {
+        path: 'access',
+        Component: AppAdminLayout,
+        loader: authGuard,
+        children: accessRouting,
+      },
+
+      {
         path: 'admin-rooms',
         Component: AppAdminLayout,
+        loader: authGuard,
         children: adminRoomsRouting,
       },
       

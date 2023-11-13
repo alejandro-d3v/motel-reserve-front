@@ -1,9 +1,9 @@
 /* Contenido principal */
 .content {
-  margin-left: 16rem; /* Ancho del Sidebar */
+  margin-left: 18rem; /* Ancho del Sidebar */
 
-  background-color: pink;
-  transition: 0.3s;
+  transition: 0.2s;
+  padding-bottom: 2rem;
 }
 .content.expand {
   margin-left: 0;

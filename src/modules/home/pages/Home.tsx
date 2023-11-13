@@ -1,5 +1,5 @@
 import { settings } from '../../../shared/constant/settings.contants';
-import homeDefault from '../../../../public/imgs/home-default.jpg';
+import banner from '../../../../public/imgs/banner.jpg';
 
 import HomeLayout from "../layouts/HomeLayout";
 import RoomCard from '../components/RoomCard';
@@ -8,48 +8,48 @@ export default function Home() {
   const rooms = [
     {
       id: 1,
-      title: 'Habitación Estándar',
-      description: 'Una habitación cómoda con todas las comodidades básicas.',
+      title: 'Cancha Estándar',
+      description: 'Una cancha de fútbol sintética con todas las comodidades básicas.',
       price: '50.000',
-      imageUrl: 'https://static.motelnowapp.com/co/images/motel/10084.jpg',
+      imageUrl: '/public/imgs/wallhaven-6kg3wl_1280x1024.png',
     },
     {
       id: 2,
-      title: 'Suite de Lujo',
-      description: 'Una suite espaciosa con vistas panorámicas al mar.',
+      title: 'Cancha de Lujo',
+      description: 'Una cancha de fútbol sintética espaciosa con iluminación y áreas de descanso.',
       price: '40.000',
-      imageUrl: 'https://static.motelnowapp.com/co/images/motel/10062.jpg',
+      imageUrl: '/public/imgs/wallhaven-455xk8_1280x1024.png',
     },
     {
       id: 3,
-      title: 'Habitación con Jacuzzi',
-      description: 'Una suite espaciosa con vistas panorámicas al mar.',
+      title: 'Cancha con Iluminación LED',
+      description: 'Una cancha de fútbol sintética con iluminación LED y área de juegos.',
       price: '60.000',
-      imageUrl: 'https://static.motelnowapp.com/co/images/motel/20086_216_2.jpg',
+      imageUrl: '/public/imgs/wallhaven-47227y_1280x1024.png',
     },
     {
       id: 4,
-      title: 'Suite Romántica',
-      description: 'Una suite espaciosa con vistas panorámicas al mar.',
+      title: 'Cancha para Eventos',
+      description: 'Una cancha de fútbol sintética ideal para eventos y torneos.',
       price: '40.000',
-      imageUrl: 'https://static.motelnowapp.com/co/images/motel/10084_513_1.jpg',
+      imageUrl: '/public/imgs/wallhaven-d5wk6l_1280x1024.png',
     },
   ];
 
   return (
     <HomeLayout>
       <section className="relative h-screen max-h-96">
-        <div className="absolute inset-0 bg-cover bg-center filter brightness-50" style={{ backgroundImage: `url(${homeDefault})`, maxHeight: '25rem' }}></div>
+        <div className="absolute inset-0 bg-cover bg-center filter brightness-50" style={{ backgroundImage: `url(${banner})`, maxHeight: '30rem' }}></div>
 
-        <div className="h-full flex flex-col justify-center items-center relative z-10">
-          <h1 className="text-7xl text-white font-semibold mb-4">{settings.appName}</h1>
-          <p className="text-4x1 text-white">Reserva en nuestro motel y disfruta de tu estancia</p>
+        <div className="h-full flex flex-col justify-center items-center relative z-[1]">
+          <h1 className="text-7xl text-white font-semibold mb-4 leading-7">{settings.appName}</h1>
+          <p className="text-4x1 text-white">¡Reserva tu espacio, juega sin preocupaciones!</p>
         </div>
       </section>
 
       <section className="bg-gray-100 py-12">
         <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {rooms.map((room) => <RoomCard {...room} /> )}
+          {rooms.map((room) => <RoomCard key={room.id} {...room} /> )}
         </div>
       </section>
     </HomeLayout>

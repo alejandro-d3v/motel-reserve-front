@@ -1,6 +1,8 @@
+import { Outlet } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { useState } from 'react';
 
-import { Outlet } from 'react-router-dom';
+import { settings } from '../constant/settings.contants';
 
 import './styles/AppAdminLayout.css';
 
@@ -15,7 +17,12 @@ export default function AppAdminLayout() {
   };
 
   return (
-    <div>
+    <>
+      <Helmet>
+        <title>{settings.appName}</title>
+        <link rel="icon" href={settings.appFavicon} />
+      </Helmet>
+
       <AppSidebar isVisible={isSidebarVisible} />
 
       <div className={`content ${!isSidebarVisible ? 'expand' : ''}`}>
@@ -25,6 +32,6 @@ export default function AppAdminLayout() {
           <Outlet />
         </div>
       </div>
-    </div>
+    </>
   );
 }
