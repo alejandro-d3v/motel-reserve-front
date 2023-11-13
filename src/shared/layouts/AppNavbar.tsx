@@ -2,7 +2,7 @@ import AppUserMenu from './AppUserMenu';
 
 export default function AppNavbar({ toggleSidebar }: { toggleSidebar: any }) {
   return (
-    <div className="navbar bg-primary">
+    <div className="navbar px-4 bg-primary">
       <div className="navbar-start">
         <div className="text-white cursor-pointer" onClick={toggleSidebar}>
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" stroke="currentColor">
