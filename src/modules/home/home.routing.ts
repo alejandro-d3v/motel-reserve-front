@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
 
 import Home from "./pages/Home";
-import Room from "./pages/Room";
+import Service from "./pages/Service";
 
 export const homeRouting: RouteObject[] = [
   {
@@ -9,7 +9,7 @@ export const homeRouting: RouteObject[] = [
     Component: Home,
   },
   {
-    path: 'room/:roomId',
-    Component: Room,
+    path: 'service/:serviceId',
+    Component: Service,
   }
 ];
