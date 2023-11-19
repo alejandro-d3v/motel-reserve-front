@@ -1,40 +1,42 @@
+import { useEffect, useState } from 'react';
+
 import { settings } from '../../../shared/constant/settings.contants';
+
 import banner from '../../../../public/imgs/banner.jpg';
 
 import HomeLayout from "../layouts/HomeLayout";
-import RoomCard from '../components/RoomCard';
+
+import ServiceCard from '../components/ServiceCard';
+import AppLoading from '../../../shared/components/AppLoading';
+
+import { ServiceDto } from '../../services/dtos/service.dto';
+
+import { GetServicesService } from '../../services/services/getServices.service';
+
+const getServicesService = new GetServicesService();
 
 export default function Home() {
-  const rooms = [
-    {
-      id: 1,
-      title: 'Cancha Estándar',
-      description: 'Una cancha de fútbol sintética con todas las comodidades básicas.',
-      price: '50.000',
-      imageUrl: '/public/imgs/wallhaven-6kg3wl_1280x1024.png',
-    },
-    {
-      id: 2,
-      title: 'Cancha de Lujo',
-      description: 'Una cancha de fútbol sintética espaciosa con iluminación y áreas de descanso.',
-      price: '40.000',
-      imageUrl: '/public/imgs/wallhaven-455xk8_1280x1024.png',
-    },
-    {
-      id: 3,
-      title: 'Cancha con Iluminación LED',
-      description: 'Una cancha de fútbol sintética con iluminación LED y área de juegos.',
-      price: '60.000',
-      imageUrl: '/public/imgs/wallhaven-47227y_1280x1024.png',
-    },
-    {
-      id: 4,
-      title: 'Cancha para Eventos',
-      description: 'Una cancha de fútbol sintética ideal para eventos y torneos.',
-      price: '40.000',
-      imageUrl: '/public/imgs/wallhaven-d5wk6l_1280x1024.png',
-    },
-  ];
+  const [services, setServices] = useState<ServiceDto[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getServices = async () => {
+      setLoading(true);
+
+      try {
+        setServices(await getServicesService.run());
+
+        console.log('services', services);
+      } catch (e) {
+        console.error('err:', e);
+        setLoading(false);
+      }
+
+      setTimeout(() => setLoading(false), 300);
+    };
+
+    getServices();
+  }, []);
 
   return (
     <HomeLayout>
@@ -48,9 +50,13 @@ export default function Home() {
       </section>
 
       <section className="bg-gray-100 py-12">
-        <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {rooms.map((room) => <RoomCard key={room.id} {...room} /> )}
-        </div>
+      {loading ? ( <AppLoading /> ) : (
+        <>
+          <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {services.map((service) => <ServiceCard key={service.id} { ...service } /> )}
+          </div>
+        </>
+      )}
       </section>
     </HomeLayout>
   );

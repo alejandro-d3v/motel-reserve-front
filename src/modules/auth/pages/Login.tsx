@@ -1,5 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+
+import { settings } from "../../../shared/constant/settings.contants";
 
 import { LoginService } from "../services/login.service";
 
@@ -24,7 +26,7 @@ export default function Login() {
         await loginService.run(dataSend);
 
         navigate('/admin/home');
-        window.location.reload();
+        setTimeout(() => window.location.reload(), 500);
       } catch (e) {
         console.log('err', e);
       }
@@ -38,7 +40,16 @@ export default function Login() {
   return (
     <>
       <div className="hero min-h-screen bg-primary">
-        <div className="hero-content card flex-col lg:flex-row-reverse gap-1 bg-base-100 shadow-2xl">
+        <div className="hero-content card flex-col lg:flex-row-reverse gap-1 bg-base-100 shadow-2xl relative">
+          <div className="absolute right-3 top-3">
+            <Link to="/">
+              <div className="flex items-center">
+                <img src={settings.appLogo} alt="Logo" className="w-10 h-10" />
+                <span className="text-lg font-bold font-sans">{settings.appName}</span>
+              </div>
+            </Link>
+          </div>
+
           <div className="text-center p-8 pb-1 lg:pb-8">
             <h1 className="text-5xl font-bold">¡Bienvenido!</h1>
             <p className="py-6">Inicia sesión para acceder al Panel de Administración.</p>
@@ -84,7 +95,7 @@ export default function Login() {
 
               <div className="form-control mt-6">
                 <button className="btn btn-primary" disabled={ loading } onClick={ login }>
-                  Login
+                  Iniciar sesión
                 </button>
               </div>
             </form>
