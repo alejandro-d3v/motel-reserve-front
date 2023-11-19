@@ -24,7 +24,7 @@ export default function Login() {
         await loginService.run(dataSend);
 
         navigate('/admin/home');
-        window.location.reload();
+        setTimeout(() => window.location.reload(), 500);
       } catch (e) {
         console.log('err', e);
       }

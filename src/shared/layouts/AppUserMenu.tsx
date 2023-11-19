@@ -13,7 +13,7 @@ export default function AppUserMenu() {
     try {
       signOutService.run();
 
-      setTimeout(() => window.location.reload(), 800);
+      setTimeout(() => window.location.reload(), 500);
     } catch (e) {
       console.log('err', e);
     }
