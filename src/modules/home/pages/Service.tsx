@@ -7,6 +7,7 @@ import HomeLayout from "../layouts/HomeLayout";
 
 import AppLoading from "../../../shared/components/AppLoading";
 import AppEmptyResponse from "../../../shared/components/AppEmptyResponse";
+import AppPaymentButton from "../../../shared/components/Button/AppPaymentButton";
 
 import { ServiceDto } from "../../services/dtos/service.dto";
 
@@ -49,6 +50,8 @@ export default function Service () {
 
                   <p><strong>Descripción:</strong> {service.description}</p>
                   <p><strong>Precio:</strong> ${Intl.NumberFormat().format(service.price ?? 0)} por hora</p>
+
+                  <AppPaymentButton { ...service } />
                 </div>
 
                 <div className="room-description md:w-1/2 mt-4 md:mt-0">
