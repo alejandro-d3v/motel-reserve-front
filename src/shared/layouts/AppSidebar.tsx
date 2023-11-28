@@ -94,7 +94,9 @@ export default function AppSidebar({ isVisible  }: { isVisible: boolean }) {
           </li>
 
           <li className='mb-0.5'>
-            <a className='text-white hover:text-white hover:bg-white hover:bg-opacity-10'>Servicios</a>
+            <Link to="/admin-service" className='hover:bg-secondary'>
+              <div className='text-white'>Servicios</div>
+            </Link>
           </li>
         </ul>
       </div>
