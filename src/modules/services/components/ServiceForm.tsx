@@ -16,6 +16,7 @@ interface AppFormModalProps {
 export default function ServiceForm ({ onClose, data }: AppFormModalProps) {
   const [name, setName] = useState<string>(data?.name ?? '');
   const [file, setFile] = useState<any>(null);
+  const [urlImg, setUrlImg] = useState<string | any>(data?.urlImg ?? null);
   const [status, setStatus] = useState<number>(data?.status ?? 1);
   const [price, setPrice] = useState<number | any>(data?.price ?? null);
   const [description, setDescription] = useState<string>(data?.description ?? '');
@@ -25,16 +26,20 @@ export default function ServiceForm ({ onClose, data }: AppFormModalProps) {
   const save = async () => {
     try {
       setStatus(1);
+      setUrlImg(data?.urlImg ?? null);
 
-      const dataSend = { 
+      const dataSend: any = { 
         name, 
-        file,
+        // file,
         price,
         status,
         description,
         advancePayment,
         longDescription,
       };
+
+      if (file) dataSend.file = file;
+      if (urlImg) dataSend.urlImg = urlImg;
 
       await createOrUpdateServiceService.run(dataSend, data?.id);
     } catch (e) {
