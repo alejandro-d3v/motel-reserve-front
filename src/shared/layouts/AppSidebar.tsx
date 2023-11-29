@@ -57,10 +57,14 @@ export default function AppSidebar({ isVisible  }: { isVisible: boolean }) {
 
               <ul>
                 <li>
-                  <a className='text-white hover:text-white hover:bg-white hover:bg-opacity-10'>Dashboard General</a>
+                  <Link to="/admin/dashboard" className='hover:bg-secondary'>
+                    <div className='text-white'>Dashboard General</div>
+                  </Link>
                 </li>
                 <li>
-                  <a className='text-white hover:text-white hover:bg-white hover:bg-opacity-10'>Reportes</a>
+                  <Link to="/admin/reports" className='hover:bg-secondary'>
+                    <div className='text-white'>Reportes</div>
+                  </Link>
                 </li>
               </ul>
             </details>
