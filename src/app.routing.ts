@@ -12,8 +12,8 @@ import { homeRouting } from './modules/home/home.routing';
 import { authRouting } from './modules/auth/auth.routing';
 
 import { adminHomeRouting } from "./modules/adminHome/adminHome.routing";
-import { adminRoomsRouting } from './modules/adminRooms/adminRooms.routing';
 import { accessRouting } from "./modules/access/access.routing";
+import { servicesRouting } from './modules/services/service.routing';
 
 const appRouting: RouteObject[] = [
   {
@@ -48,10 +48,10 @@ const appRouting: RouteObject[] = [
       },
 
       {
-        path: 'admin-rooms',
+        path: 'admin-service',
         Component: AppAdminLayout,
         loader: authGuard,
-        children: adminRoomsRouting,
+        children: servicesRouting,
       },
       
       {
