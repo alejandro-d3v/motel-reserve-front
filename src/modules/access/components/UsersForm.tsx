@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import AppLoading from "../../../shared/components/AppLoading";
+import AppLoadingProgress from "../../../shared/components/AppLoadingProgress";
 
 import { UserWithRoleDto } from "../../../shared/dto/user.dto";
 import { RoleDto } from "../../../shared/dto/role.dto";
@@ -31,6 +32,7 @@ export default function UsersForm ({ user }: IProps) {
 
   const [roles, setRoles] = useState<RoleDto[] | []>([]);
 
+  const [loadingSave, setLoadingSave] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -51,17 +53,21 @@ export default function UsersForm ({ user }: IProps) {
   }, []);
 
   const save = handleSubmit(async (data) => {
+    setLoadingSave(true);
+
     try {
       const dataSend: any = {
         roleId: data.roleId ? parseInt(data.roleId) : null,
         names: data.names,
         lastNames: data.lastNames,
         user: data.user,
-        password: data.password,
         isActive: data.isActive ? 1 : 0,
       };
 
+      if (data.password) dataSend.password = data.password;
       if (data.file && data.file[0]) dataSend.file = data.file[0];
+      if (user?.id && user.avatar && !(data.file && data.file[0])) dataSend.urlImg = user.avatar;
+
       console.log('data', data);
       console.log('dataSend', dataSend);
 
@@ -70,7 +76,10 @@ export default function UsersForm ({ user }: IProps) {
       navigate('/access/users');
     } catch (e) {
       console.log('err', e);
+      setLoadingSave(false);
     }
+
+    setLoadingSave(false);
   });
 
   return (
@@ -92,6 +101,8 @@ export default function UsersForm ({ user }: IProps) {
 
         {loading ? ( <AppLoading /> ) : (  
           <section>
+            {loadingSave && <AppLoadingProgress />}
+
             <div className="flex space-x-4">
               <div className="form-control w-full">
                 <label className="label">
@@ -204,7 +215,7 @@ export default function UsersForm ({ user }: IProps) {
                   className="input input-bordered w-full" 
                   {...register('password', {
                     required: {
-                      value: true,
+                      value: user?.id ? false : true,
                       message: "La contraseña es requerida"
                     }
                   })}
@@ -223,7 +234,7 @@ export default function UsersForm ({ user }: IProps) {
                   className="input input-bordered w-full" 
                   {...register('confirmPassword', {
                     required: {
-                      value: true,
+                      value: user?.id ? false : true,
                       message: "La confirmacion de contraseña es requerida"
                     },
                     validate: (value) => value == password.current || "Las contraseñas no coinciden",
