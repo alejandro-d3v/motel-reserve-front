@@ -12,6 +12,9 @@ export interface UserDto extends TimestampDto {
   password: string;
 }
 
+export interface UserWithRoleDto extends UserDto {
+  role: RoleDto;
+}
 export interface MeDto extends UserDto {
   role: RoleDto;
 }
