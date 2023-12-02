@@ -12,3 +12,14 @@
 .sidebar.show {
   left: 0;
 }
+.sidebar::-webkit-scrollbar {
+  width: 0.3rem;
+}
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border: none;
+}
