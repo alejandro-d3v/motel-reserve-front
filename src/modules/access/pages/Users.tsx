@@ -1,99 +1,81 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
+import AppLoading from "../../../shared/components/AppLoading";
+import AppEmptyResponse from "../../../shared/components/AppEmptyResponse";
+import AppLoadingProgress from "../../../shared/components/AppLoadingProgress";
+
+import { UserWithRoleDto } from "../../../shared/dto/user.dto";
+
+import { GetUsersService } from "../services/getUsers.service";
+
+const getUsersService = new GetUsersService();
 
 export default function Users() {
-  const [users] = useState([
-    {
-      id: 1,
-      roleId: 1,
-      names: 'John',
-      lastnames: 'Doe',
-      avatar: 'user1.jpg',
-      username: 'johndoe',
-      password: '********',
-      isActive: 1,
-      createdAt: '2023-10-26 10:00:00',
-      updatedAt: '2023-10-26 10:00:00',
-    },
-    {
-      id: 2,
-      roleId: 2,
-      names: 'Jane',
-      lastnames: 'Smith',
-      avatar: 'user2.jpg',
-      username: 'janesmith',
-      password: '********',
-      isActive: 1,
-      createdAt: '2023-10-26 10:15:00',
-      updatedAt: '2023-10-26 10:15:00',
-    },
-    {
-      id: 3,
-      roleId: 1,
-      names: 'Michael',
-      lastnames: 'Johnson',
-      avatar: 'user3.jpg',
-      username: 'michaelj',
-      password: '********',
-      isActive: 1,
-      createdAt: '2023-10-26 10:30:00',
-      updatedAt: '2023-10-26 10:30:00',
-    },
-    {
-      id: 4,
-      roleId: 3,
-      names: 'Sarah',
-      lastnames: 'Brown',
-      avatar: 'user4.jpg',
-      username: 'sarahb',
-      password: '********',
-      isActive: 0,
-      createdAt: '2023-10-26 10:45:00',
-      updatedAt: '2023-10-26 10:45:00',
-    },
-    {
-      id: 5,
-      roleId: 2,
-      names: 'David',
-      lastnames: 'Wilson',
-      avatar: 'user5.jpg',
-      username: 'davidw',
-      password: '********',
-      isActive: 1,
-      createdAt: '2023-10-26 11:00:00',
-      updatedAt: '2023-10-26 11:00:00',
-    },
-    {
-      id: 6,
-      roleId: 1,
-      names: 'Linda',
-      lastnames: 'Davis',
-      avatar: 'user6.jpg',
-      username: 'lindad',
-      password: '********',
-      isActive: 1,
-      createdAt: '2023-10-26 11:15:00',
-      updatedAt: '2023-10-26 11:15:00',
-    },
-    {
-      id: 7,
-      roleId: 2,
-      names: 'Christopher',
-      lastnames: 'Lee',
-      avatar: 'user7.jpg',
-      username: 'christopherl',
-      password: '********',
-      isActive: 0,
-      createdAt: '2023-10-26 11:30:00',
-      updatedAt: '2023-10-26 11:30:00',
-    },
-  ]);
+  const [users, setUsers] = useState<UserWithRoleDto[]>([]);
+  const [search, setSearch] = useState<any>(null);
+
+  const [loadingSearch, setLoadingSearch] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  useEffect(() => {
+    const getData = async () => {
+      await getUsers();
+      setLoadingSearch(false);
+    };
+  
+    getData();
+  }, [search]);
+
+  const getUsers = async () => {
+    try {
+      const params: { search?: string } = {};
+      if (search) params.search = search;
+
+      setUsers(await getUsersService.run(params));
+    } catch (e) {
+      console.error("err:", e);
+    }
+
+    setLoading(false);
+    setLoadingSearch(false);
+  };
+
+  const handleSearchChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLoadingSearch(true);
+    setSearch(event.target.value);
+  };
 
   return (
     <>
       <div className="px-8 pt-4">
-        <h1 className="text-3xl font-semibold mb-4">Usuarios</h1>
+        <div className="flex justify-between items-center">
+          <h1 className="text-3xl font-semibold mb-0">Usuarios</h1>
+
+          <Link to="create">
+            <button className="btn btn-neutral" disabled={ loading }>
+              Agregar Usuario
+            </button>
+          </Link>
+        </div>
 
         <div className="divider"></div> 
+
+        <div>
+          <input
+            type="text"
+            placeholder="Buscar usuarios..."
+            value={search || ''}
+            onChange={handleSearchChange}
+            className="input input-bordered w-full"
+          />
+        </div>
+
+        {loadingSearch && <AppLoadingProgress />}
 
         <table className="table">
           <thead>
@@ -101,31 +83,44 @@ export default function Users() {
               <th className="p-3 font-semibold text-left">Nombres</th>
               <th className="p-3 font-semibold text-left">Username</th>
               <th className="p-3 font-semibold text-left">Estado</th>
-              <th className="p-3 font-semibold text-left">Fecha de Creación</th>
-              <th className="p-3 font-semibold text-left">Fecha de Actualización</th>
-              <th className="p-3 font-semibold text-left">Opciones</th>
+              <th className="p-3 font-semibold text-left">Rol</th>
+              <th className="p-3 font-semibold text-center w-32">Opciones</th>
             </tr>
           </thead>
+
           <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td className="p-3">
-                  <div className="flex items-center space-x-3">
-                    <div>
-                      <div className="font-bold">{user.names}</div>
-                      <div className="text-sm opacity-50">{user.lastnames}</div>
-                    </div>
-                  </div>
-                </td>
-                <td className="p-3">{user.username}</td>
-                <td className="p-3">{user.isActive ? 'Activo' : 'Inactivo'}</td>
-                <td className="p-3">{user.createdAt}</td>
-                <td className="p-3">{user.updatedAt}</td>
-                <td className="p-3">
-                  <button className="btn btn-ghost btn-xs">details</button>
-                </td>
-              </tr>
-            ))}
+            {loading ? ( <tr><td colSpan={4}><AppLoading /></td></tr> ) : (
+              <>
+                { !users.length ? ( <tr><td colSpan={4}><AppEmptyResponse /></td></tr> ) : (
+                  <>
+                    {users.map((user) => (
+                      <tr key={user.id}>
+                        <td className="p-3">
+                          <div className="flex items-center space-x-3">
+                            <div>
+                              <div className="font-bold">{user.names}</div>
+                              <div className="text-sm opacity-50">{user.lastNames}</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="p-3">{user.user}</td>
+                        <td className="p-3">{user.isActive ? 'Activo' : 'Inactivo'}</td>
+                        <td className="p-3"><div className="badge badge-neutral">{user.role?.name ?? '---'}</div></td>
+                        <td>
+                          <div className="flex justify-center">
+                            <Link to={`${user.id}/edit`}>
+                              <button className="btn btn-sm join-item btn-outline btn-neutral">
+                                Editar
+                              </button>
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </>
+                )}
+              </>
+            )}
           </tbody>
         </table>
       </div>
