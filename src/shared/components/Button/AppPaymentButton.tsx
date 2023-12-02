@@ -41,7 +41,7 @@ export default function AppPaymentButton (service: ServiceDto) {
       { loading && <AppLoading /> }
 
       {!preferenceId ? 
-        ( <button className="btn btn-active btn-neutral" onClick={handleBuy}>Reservar</button> ) : 
+        ( <button className="btn btn-active btn-neutral w-full" onClick={handleBuy}>Reservar</button> ) : 
         ( <Wallet initialization={{ preferenceId }} onReady={() => { setTimeout(() => setLoading(false), 300) }} /> )
       }
     </>
