@@ -11,6 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^40.1.0",
+    "@ckeditor/ckeditor5-react": "^6.2.0",
     "@mercadopago/sdk-react": "^0.0.15",
     "@tremor/react": "^3.11.1",
     "axios": "^1.6.0",
