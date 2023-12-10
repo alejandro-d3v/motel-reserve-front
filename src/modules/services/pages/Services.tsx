@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-import ServiceForm from "../components/ServiceForm";
 import AppLoading from "../../../shared/components/AppLoading";
 import AppModal from "../../../shared/components/Modal/AppModal";
 import AppEmptyResponse from "../../../shared/components/AppEmptyResponse";
@@ -19,11 +19,10 @@ export default function ServicesPage () {
   const [service, setService] = useState<ServiceDto | null>(null);
 
   const [deleteModal, setDeleteModal] = useState(false);
-  const [formModal, setFormModal] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const getRoles = async () => {
+    const getServices = async () => {
       setLoading(true);
 
       try {
@@ -36,25 +35,8 @@ export default function ServicesPage () {
       setLoading(false);
     };
 
-    getRoles();
+    getServices();
   }, []);
-
-  const openFormModal = (service: ServiceDto | null = null) => {
-    setService(service);
-    setFormModal(true);
-  };
-  const closeModalForm = async (d: any = null) => {
-    if (!d || d.target.id != 'btnCloseModal') {
-      try {
-        setServices(await getServicesService.run());
-      } catch (e) {
-        console.log('err', e);
-      }
-    }
-
-    setFormModal(false);
-    setService(null);
-  };
 
   const openDeleteModal = (service: ServiceDto) => {
     setDeleteModal(true);
@@ -83,9 +65,11 @@ export default function ServicesPage () {
         <div className="flex justify-between items-center">
           <h1 className="text-3xl font-semibold mb-0">Servicios</h1>
 
-          <button className="btn btn-neutral" disabled={ loading } onClick={ () => openFormModal() }>
-            Agregar Servicio
-          </button>
+          <Link to="create">
+            <button className="btn btn-neutral" disabled={ loading }>
+              Agregar Servicio
+            </button>
+          </Link>
         </div>
 
         <div className="divider"></div>
@@ -103,9 +87,9 @@ export default function ServicesPage () {
           </thead>
 
           <tbody>
-            {loading ? ( <td colSpan={6}><AppLoading /></td> ) : (
+            {loading ? ( <tr><td colSpan={6}><AppLoading /></td></tr> ) : (
               <>
-                { !services.length ? ( <td colSpan={6}><AppEmptyResponse /></td> ) : (
+                { !services.length ? ( <tr><td colSpan={6}><AppEmptyResponse /></td></tr> ) : (
                   <>
                     {services.map((item) => (
                       <tr key={item.id}>
@@ -121,9 +105,11 @@ export default function ServicesPage () {
                               Eliminar
                             </button>
 
-                            <button className="btn btn-sm join-item btn-outline btn-neutral" onClick={ () => openFormModal(item) }>
-                              Editar
-                            </button>
+                            <Link to={`${item.id}/edit`}>
+                              <button className="btn btn-sm join-item btn-outline btn-neutral">
+                                Editar
+                              </button>
+                            </Link>
                           </div>
                         </td>
                       </tr>
@@ -135,10 +121,6 @@ export default function ServicesPage () {
           </tbody>
         </table>
       </div>
-
-      <AppModal isOpen={ formModal } onClose={ closeModalForm }>
-        <ServiceForm data={ service } onClose={ closeModalForm } />
-      </AppModal>
 
       <AppModal isOpen={ deleteModal } onClose={ closeDeleteModal }>
         <AppConfirmDeleteModal onClose={ closeDeleteModal } />
