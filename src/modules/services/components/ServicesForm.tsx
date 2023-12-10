@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import AppCkeditor from "../../../shared/components/Forms/AppCkeditor";
 import AppLoadingProgress from "../../../shared/components/AppLoadingProgress";
 
 import { ServiceDto } from "../dtos/service.dto";
@@ -20,23 +21,35 @@ export default function ServicesForm ({ service }: IProps) {
     register, 
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
 
   const [loadingSave, setLoadingSave] = useState(false);
+  const [loadingCKeditor, setLoadingCKeditor] = useState(true);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => setLoadingCKeditor(false), 500);
+
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   const save = handleSubmit(async (data) => {
     setLoadingSave(true);
 
     try {
-      const dataSend: any = {};
+      const dataSend: any = {
+        name: data.name, 
+        price: data.price ? parseFloat(data.price) : null,
+        status: 1,
+        description: data.description,
+        advancePayment: data.advancePayment ? parseFloat(data.advancePayment) : null,
+        longDescription: data.longDescription,
+      };
 
       if (data.file && data.file[0]) dataSend.file = data.file[0];
       if (service?.id && service.urlImg && !(data.file && data.file[0])) dataSend.urlImg = service.urlImg;
 
-      console.log('Data', data);
-      console.log('Data send', dataSend);
-
-      // await createOrUpdateServiceService.run(dataSend, service?.id);
+      await createOrUpdateServiceService.run(dataSend, service?.id);
 
       navigate('/admin-service');
     } catch (e) {
@@ -85,7 +98,7 @@ export default function ServicesForm ({ service }: IProps) {
                 })}
               />
 
-              {errors.name && <span className="text-red-600 text-right">{errors.name.message as any}</span>}
+              {errors.name && <span className="text-red-600 text-right text-xs">{errors.name.message as any}</span>}
             </div>
 
             <div className="form-control w-full">
@@ -99,7 +112,7 @@ export default function ServicesForm ({ service }: IProps) {
                 {...register('file')}
               />
 
-              {errors.file && <span className="text-red-600 text-right">{errors.file.message as any}</span>}
+              {errors.file && <span className="text-red-600 text-right text-xs">{errors.file.message as any}</span>}
             </div>
           </div>
 
@@ -121,7 +134,7 @@ export default function ServicesForm ({ service }: IProps) {
                 })}
               />
 
-              {errors.price && <span className="text-red-600 text-right">{errors.price.message as any}</span>}
+              {errors.price && <span className="text-red-600 text-right text-xs">{errors.price.message as any}</span>}
             </div>
 
             <div className="form-control w-full">
@@ -141,7 +154,7 @@ export default function ServicesForm ({ service }: IProps) {
                 })}
               />
 
-              {errors.advancePayment && <span className="text-red-600 text-right">{errors.advancePayment.message as any}</span>}
+              {errors.advancePayment && <span className="text-red-600 text-right text-xs">{errors.advancePayment.message as any}</span>}
             </div>
           </div>
 
@@ -162,7 +175,33 @@ export default function ServicesForm ({ service }: IProps) {
                 })}
               ></textarea>
 
-              {errors.description && <span className="text-red-600 text-right">{errors.description.message as any}</span>}
+              {errors.description && <span className="text-red-600 text-right text-xs">{errors.description.message as any}</span>}
+            </div>
+          </div>
+
+          <div className="flex space-x-4">
+            <div className="form-control w-full">
+              <label className="label">
+                <div className="flex flex-col">
+                  <span className="label-text">Mas detalles</span>
+
+                  {errors.longDescription && <span className="text-red-600 text-left text-xs">{errors.longDescription.message as any}</span>}
+                </div>
+              </label>
+
+              {!loadingCKeditor && (
+                <AppCkeditor 
+                  data={ service?.longDescription as any } 
+                  {...register('longDescription', {
+                    value: service?.longDescription,
+                    required: {
+                      value: true,
+                      message: "Este campo es requerida"
+                    }
+                  })}
+                  onChange={ (newData) => setValue("longDescription", newData )}
+                />
+              )}
             </div>
           </div>
         </section>

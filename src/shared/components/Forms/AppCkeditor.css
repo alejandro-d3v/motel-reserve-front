@@ -1,0 +1,60 @@
+/* Set the styles for "Heading 1". */
+.ck-content h2,
+.ck-content .ck-heading-dropdown .ck-heading_heading1 .ck-button__label {
+  font-size: 2.18em;
+  font-weight: normal;
+}
+.ck-content h2 {
+  line-height: 1.37em;
+  padding-top: .342em;
+  margin-bottom: .142em;
+}
+
+/* Set the styles for "Heading 2". */
+.ck-content h3,
+.ck-heading-dropdown .ck-heading_heading2 .ck-button__label {
+  font-size: 1.75em;
+  font-weight: normal;
+}
+.ck-heading-dropdown .ck-heading_heading2.ck-on .ck-button__label {
+  color: var(--ck-color-list-button-on-text);
+}
+
+/* Set the styles for "Heading 2". */
+.ck-content h3 {
+  line-height: 1.86em;
+  padding-top: .171em;
+  margin-bottom: .357em;
+}
+
+/* Set the styles for "Heading 3". */
+.ck-content h4,
+.ck-heading-dropdown .ck-heading_heading3 .ck-button__label {
+  font-size: 1.31em;
+  font-weight: bold;
+}
+.ck-content h4 {
+  line-height: 1.24em;
+  padding-top: .286em;
+  margin-bottom: .952em;
+}
+
+/* Set the styles for "Paragraph". */
+.ck-content p {
+  font-size: 1em;
+  line-height: 1.63em;
+  padding-top: .5em;
+  margin-bottom: 1.13em;
+}
+
+/* Make the block quoted text serif with some additional spacing. */
+.ck-content blockquote {
+  font-family: Georgia, serif;
+  margin-left: calc( 2 * var(--ck-spacing-large) );
+  margin-right: calc( 2 * var(--ck-spacing-large) );
+}
+
+/* Set the styles for "Numbered List". */
+.ck-content ol {
+  margin-left: 1rem;
+}

@@ -87,9 +87,9 @@ export default function ServicesPage () {
           </thead>
 
           <tbody>
-            {loading ? ( <td colSpan={6}><AppLoading /></td> ) : (
+            {loading ? ( <tr><td colSpan={6}><AppLoading /></td></tr> ) : (
               <>
-                { !services.length ? ( <td colSpan={6}><AppEmptyResponse /></td> ) : (
+                { !services.length ? ( <tr><td colSpan={6}><AppEmptyResponse /></td></tr> ) : (
                   <>
                     {services.map((item) => (
                       <tr key={item.id}>

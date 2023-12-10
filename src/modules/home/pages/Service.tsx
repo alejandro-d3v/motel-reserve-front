@@ -43,7 +43,7 @@ export default function Service () {
           { !service ? ( <AppEmptyResponse /> ) : (
             <div className="container mx-auto mt-1 p-6 bg-white shadow-lg rounded-lg">
               <div className="flex flex-col md:flex-row gap-4">
-                <div className="room-info md:w-1/2">
+                <div className="room-info md:w-1/2 w-1/3">
                   <h1 className="text-2xl font-semibold mb-4">{service.name}</h1>
 
                   <img src={service.urlImg ?? imgTemp} alt={service.name} className="mb-4 rounded-lg" />
@@ -55,8 +55,7 @@ export default function Service () {
                 </div>
 
                 <div className="room-description md:w-1/2 mt-4 md:mt-0">
-                  <h2 className="text-xl font-semibold mb-2">Más detalles</h2>
-                  <p className="text-gray-700">{service.longDescription}</p>
+                  <div className="ck-content" dangerouslySetInnerHTML={{ __html: service.longDescription}} />
                 </div>
               </div>
             </div>
