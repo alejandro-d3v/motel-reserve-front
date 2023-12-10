@@ -18,6 +18,7 @@ export default function AppCkeditor ({ data, onChange }: Iprops) {
           toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ]
         }}
         onChange={ ( event, editor ) => {
+          console.log('event', event);
           const newData = editor.getData();
           onChange(newData);
         }}
