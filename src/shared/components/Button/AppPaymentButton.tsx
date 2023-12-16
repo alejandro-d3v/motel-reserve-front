@@ -5,45 +5,20 @@ import { settings } from '../../constant/settings.contants'
 
 import AppLoading from '../AppLoading';
 
-import { ServiceDto } from '../../../modules/services/dtos/service.dto';
+interface IProps {
+  preferenceId: string
+}
 
-import { CreatePreferenceService } from '../../services/createPreference.service';
-
-const createPreferenceService = new CreatePreferenceService();
-
-export default function AppPaymentButton (service: ServiceDto) {
-  const [preferenceId, setPreferenceId] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+export default function AppPaymentButton ({ preferenceId }: IProps) {
+  const [loading, setLoading] = useState(true);
 
   initMercadoPago(settings.appMPPublicKey);
-
-  const handleBuy = async () => {
-    setLoading(true);
-
-    try {
-      const dataSend = {
-        serviceId: service.id,
-
-        title: service.name,
-        unitPrice: service.price,
-      };
-
-      const res: any = await createPreferenceService.run(dataSend);
-
-      setPreferenceId(res.preferenceId);
-    } catch (e) {
-      console.log('err', e);
-    }
-  }
 
   return (
     <>
       { loading && <AppLoading /> }
 
-      {!preferenceId ? 
-        ( <button className="btn btn-active btn-neutral w-full" onClick={handleBuy}>Reservar</button> ) : 
-        ( <Wallet initialization={{ preferenceId }} onReady={() => { setTimeout(() => setLoading(false), 300) }} /> )
-      }
+      <Wallet initialization={{ preferenceId }} onReady={() => { setTimeout(() => setLoading(false), 300) }} />
     </>
   );
 }

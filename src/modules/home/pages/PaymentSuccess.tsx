@@ -29,7 +29,7 @@ export default function PaymentSuccess () {
     <HomeLayout pageName='Pago fallido'>
       {loading ? ( <AppLoading /> ) : (
         <>
-          <h1>Pago fallido</h1>
+          <h1>Pago hecho</h1>
         </>
       )}
     </HomeLayout>
