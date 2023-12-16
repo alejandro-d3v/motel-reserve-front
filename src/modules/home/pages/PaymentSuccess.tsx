@@ -28,13 +28,14 @@ export default function PaymentSuccess () {
 
           if (paymentStatus == 1 || paymentStatus == 3) {
             await updateReservationsPaymentStatusService.run(paymentStatus, reservation.id);
+
+            setTimeout(() => navigate('/reservations-list'), 300);
           }
         }
-
-        navigate('/reservations-list');
       } catch (e) {
         console.error('err', e);
         setTimeout(() => setLoading(false), 300);
+        navigate('/reservations-list');
       }
 
       setTimeout(() => setLoading(false), 300);
