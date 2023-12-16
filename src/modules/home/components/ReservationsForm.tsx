@@ -3,9 +3,15 @@ import { useEffect, useState } from 'react';
 
 import TimePicker from './ReservationsFormTimePicker';
 import AppLoadingProgress from '../../../shared/components/AppLoadingProgress';
-// import AppPaymentButton from '../../../shared/components/Button/AppPaymentButton';
+import AppPaymentButton from '../../../shared/components/Button/AppPaymentButton';
 
 import { ServiceDto } from '../../services/dtos/service.dto';
+
+import { ReservationCodesService } from '../../../shared/services/reservationCodes.service';
+import { CreateOrUpdateReservationsService } from '../services/createOrUpdateReservations.service';
+
+const createOrUpdateReservationsService = new CreateOrUpdateReservationsService();
+const reservationCodesService = new ReservationCodesService();
 
 interface IProps {
   service: ServiceDto
@@ -20,6 +26,7 @@ export default function ReservationsForm ({ service }: IProps) {
   } = useForm();
 
   const [selectedStartTime, setSelectedStartTime] = useState<string>('');
+  const [preferenceId, setPreferenceId] = useState<string | null>(null);
   const [selectedEndTime, setSelectedEndTime] = useState<string>('');
   const [totalPrice, setTotalPrice] = useState<number | null>(null);
 
@@ -88,11 +95,13 @@ export default function ReservationsForm ({ service }: IProps) {
   const save = handleSubmit(async (data) => {
     setLoadingSave(true);
 
+    const currentDate = new Date();
+
     try {
       const dataSend: any = {
         serviceId: service.id,
-        code: '-',
-        paymentStatus: 0,
+        code: `${currentDate.getTime()}`,
+        paymentStatus: payAdvance ? 2 : 0,
 
         nameClient: data.nameClient,
         phone: data.phone,
@@ -102,8 +111,10 @@ export default function ReservationsForm ({ service }: IProps) {
         totalPrice: payAdvance ? service.advancePayment : (totalPrice ?? service.price ?? 0),
       };
 
-      console.log('data', data);
-      console.log('dataSend', dataSend);
+      const res = await createOrUpdateReservationsService.run(dataSend);
+
+      setPreferenceId(res.preferenceId);
+      reservationCodesService.set(res.code);
     } catch (e) {
       console.log('err', e);
       setLoadingSave(false);
@@ -238,9 +249,10 @@ export default function ReservationsForm ({ service }: IProps) {
           />
         </div>
 
-        <button className="btn btn-active btn-neutral w-full mt-3">Reservar</button>
-        {/* <AppPaymentButton { ...service } /> */}
+        {!preferenceId && ( <button className="btn btn-active btn-neutral w-full mt-3">Reservar</button> )}
       </form>
+
+      {preferenceId && ( <AppPaymentButton preferenceId={preferenceId} /> )}
     </>
   );
 };
