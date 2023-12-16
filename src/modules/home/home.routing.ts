@@ -6,6 +6,8 @@ import Service from "./pages/Service";
 import PaymentFailure from "./pages/PaymentFailure";
 import PaymentSuccess from "./pages/PaymentSuccess";
 
+import ReservationsList from "./pages/ReservationsList";
+
 export const homeRouting: RouteObject[] = [
   {
     path: '',
@@ -23,5 +25,10 @@ export const homeRouting: RouteObject[] = [
   {
     path: 'service/payment-success',
     Component: PaymentSuccess,
+  },
+
+  {
+    path: 'reservations-list',
+    Component: ReservationsList,
   }
 ];

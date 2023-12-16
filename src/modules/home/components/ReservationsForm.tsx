@@ -101,7 +101,7 @@ export default function ReservationsForm ({ service }: IProps) {
       const dataSend: any = {
         serviceId: service.id,
         code: `${currentDate.getTime()}`,
-        paymentStatus: 0,
+        paymentStatus: payAdvance ? 2 : 0,
 
         nameClient: data.nameClient,
         phone: data.phone,
