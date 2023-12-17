@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 import RoleForm from "../components/RoleForm";
 import AppLoading from "../../../shared/components/AppLoading";
@@ -103,7 +104,13 @@ export default function Roles() {
 
                       <p>{item.description}</p>
 
-                      <div className="card-actions justify-end">
+                      <div className="card-actions justify-between">
+                        <Link to={`${item.id}/access`}>
+                          <button className="btn btn-sm join-item btn-outline btn-neutral">
+                            Accesos
+                          </button>
+                        </Link>
+
                         <div className="join">
                           <button className="btn btn-sm join-item btn-outline btn-neutral" onClick={ () => openDeleteModal(item) }>
                             Eliminar

@@ -4,11 +4,16 @@ import Roles from "./pages/Roles";
 import Users from "./pages/Users";
 import UsersCreate from "./pages/UsersCreate";
 import UsersEdit from "./pages/UsersEdit";
+import RoleAccess from "./pages/RoleAccess";
 
 export const accessRouting: RouteObject[] = [
   {
     path: 'roles',
     Component: Roles,
+  },
+  {
+    path: 'roles/:rolId/access',
+    Component: RoleAccess,
   },
 
   {

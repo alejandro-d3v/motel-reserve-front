@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
-import * as dayjs from 'dayjs'
-import * as isLeapYear from 'dayjs/plugin/isLeapYear';
+import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 
 import imgTemp from '../../../../public/imgs/wallhaven-455xk8_1280x1024.png'
@@ -19,7 +18,6 @@ import { ReservationCodesService } from "../../../shared/services/reservationCod
 const getReservationsByCodesService = new GetReservationsByCodesService();
 const reservationCodesService = new ReservationCodesService();
 
-dayjs.extend(isLeapYear);
 dayjs.locale('es');
 
 export default function ReservationsList () {

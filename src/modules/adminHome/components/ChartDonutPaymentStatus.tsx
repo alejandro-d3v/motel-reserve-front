@@ -9,7 +9,7 @@ import { GetServicesWithReservationsService } from "../services/getServicesWithR
 
 const getServicesWithReservationsService = new GetServicesWithReservationsService();
 
-const ChartDonut = () => {
+const ChartDonutPaymentStatus = () => {
   const [report, setReport] = useState<any[]>([]);
   const [services, setServices] = useState<ServiceWithReservationsDto[] | []>([]);
 
@@ -30,26 +30,54 @@ const ChartDonut = () => {
   }, []);
 
   useEffect(() => {
-    const newArray = services.map(service => {
-      const serviceName = service.name;
-      const totalSales = service.reservation
-        .filter(reservation => reservation.paymentStatus === 1 || reservation.paymentStatus === 3)
-        .reduce((acc, reservation) => acc + reservation.totalPrice, 0);
-    
-      return {
-        name: serviceName,
-        sales: totalSales,
-      };
+    const newReport = [
+      {
+        name: 'Pago no completado',
+        sales: 0,
+      },
+      {
+        name: 'Pago completado',
+        sales: 0,
+      },
+      {
+        name: 'Pago de cuota no completado',
+        sales: 0,
+      },
+      {
+        name: 'Pago de cuota completado',
+        sales: 0,
+      },
+    ];
+
+    services.forEach(item => {
+      item.reservation.forEach(reservation => {
+        switch (reservation.paymentStatus) {
+          case 0:
+            newReport[0].sales += reservation.totalPrice;
+            break;
+          case 1:
+            newReport[1].sales += reservation.totalPrice;
+            break;
+          case 2:
+            newReport[2].sales += reservation.totalPrice;
+            break;
+          case 3:
+            newReport[3].sales += reservation.totalPrice;
+            break;
+          default:
+            break;
+        }
+      });
     });
 
-    setReport(newArray);
+    setReport(newReport);
 
     setTimeout(() => setLoading(false), 400);
   }, [services]);
 
   return (
     <Card>
-      <Title>Ingresos por canchas</Title>
+      <Title>Estado de Pagos</Title>
 
       {loading ? ( <AppLoading /> ) : (
         <>
@@ -68,4 +96,4 @@ const ChartDonut = () => {
   )
 }
   
-export default ChartDonut
+export default ChartDonutPaymentStatus
