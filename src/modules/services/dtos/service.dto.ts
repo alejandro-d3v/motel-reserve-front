@@ -1,4 +1,5 @@
 import { TimestampDto } from "../../../shared/dto/timestamp.dto"
+import { ReservationDto } from "../../home/dtos/reservations.dto"
 
 export interface ServiceDto extends TimestampDto {
   description: string
@@ -9,4 +10,8 @@ export interface ServiceDto extends TimestampDto {
   name: string
   longDescription: string
   advancePayment: number
+}
+
+export interface ServiceWithReservationsDto extends ServiceDto {
+  reservation: ReservationDto[]
 }
