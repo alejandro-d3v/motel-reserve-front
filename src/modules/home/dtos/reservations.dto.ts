@@ -2,6 +2,7 @@ import { TimestampDto } from "../../../shared/dto/timestamp.dto"
 import { ServiceDto } from "../../services/dtos/service.dto"
 
 export interface ReservationDto extends TimestampDto {
+  preferenceId: string
   code: string
   nameClient: string
   id: number

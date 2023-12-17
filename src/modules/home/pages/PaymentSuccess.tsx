@@ -5,11 +5,15 @@ import HomeLayout from "../layouts/HomeLayout";
 
 import AppLoading from "../../../shared/components/AppLoading";
 
+import { GetReservationsByCodesService } from "../services/getReservationsByCodes.service";
+import { ReservationCodesService } from "../../../shared/services/reservationCodes.service";
 import { GetReservationsByPreferenceIdService } from "../services/getReservationsByPreferenceId.service";
 import { UpdateReservationsPaymentStatusService } from "../services/updateReservationsPaymentStatus.service";
 
 const updateReservationsPaymentStatusService = new UpdateReservationsPaymentStatusService();
 const getReservationsByPreferenceIdService = new GetReservationsByPreferenceIdService();
+const getReservationsByCodesService = new GetReservationsByCodesService();
+const reservationCodesService = new ReservationCodesService();
 
 export default function PaymentSuccess () {
   const [ searchParams ] = useSearchParams();
@@ -19,7 +23,14 @@ export default function PaymentSuccess () {
   useEffect(() => {
     const getQuery = async () => {
       try {
-        const preferenceId = searchParams.get('preference_id');
+        let preferenceId = searchParams.get('preference_id');
+        const reservationCodes = reservationCodesService.get();
+        const lastCode = reservationCodes[reservationCodes.length - 1];
+
+        if (!preferenceId) {
+          const reservation = await getReservationsByCodesService.run([lastCode]);
+          preferenceId = reservation[0].preferenceId;
+        }
 
         if (preferenceId) {
           const reservation = await getReservationsByPreferenceIdService.run(preferenceId);
