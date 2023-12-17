@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
 
+import ReservationForm from "../components/ReservationForm";
 import AppLoading from "../../../shared/components/AppLoading";
+import AppModal from "../../../shared/components/Modal/AppModal";
 import AppEmptyResponse from "../../../shared/components/AppEmptyResponse";
 
+import { ReservationDto } from "../../home/dtos/reservations.dto";
 import { ServiceWithReservationsDto } from "../../services/dtos/service.dto";
 
 import { GetServicesWithReservationsService } from "../services/getServicesWithReservations.service";
@@ -19,7 +22,9 @@ export default function serviceWithReservations () {
   const params = useParams();
 
   const [service, setService] = useState<ServiceWithReservationsDto | null>(null);
+  const [reservation, setReservation] = useState<ReservationDto | null>(null);
 
+  const [formModal, setFormModal] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -41,6 +46,24 @@ export default function serviceWithReservations () {
     getData();
   }, []);
 
+  const openFormModal = (reservation: ReservationDto | null = null) => {
+    setFormModal(true);
+    setReservation(reservation);
+  };
+  const closeModalForm = async (d: any = null) => {
+    if (!d || d.target.id != 'btnCloseModal') {
+      try {
+        const serviceId = params.serviceId;
+        setService(await getServicesWithReservationsService.run({ serviceId }))
+      } catch (e) {
+        console.log('err', e);
+      }
+    }
+
+    setFormModal(false);
+    setReservation(null);
+  };
+
   return (
     <>
       <div className="px-8 pt-4">
@@ -56,7 +79,7 @@ export default function serviceWithReservations () {
                       <button className="btn btn-outline">Volver</button>
                     </Link>
 
-                    <button className="btn btn-active btn-neutral">Agregar</button>
+                    <button className="btn btn-active btn-neutral" disabled={ loading } onClick={ () => openFormModal() }>Agregar</button>
                   </div>
                 </div>
 
@@ -107,7 +130,7 @@ export default function serviceWithReservations () {
 
                             <td>
                               <div className="flex justify-center">
-                                <button className="btn btn-sm join-item btn-outline btn-neutral">Editar</button>
+                                <button className="btn btn-sm join-item btn-outline btn-neutral" onClick={ () => openFormModal(item) }>Editar</button>
                               </div>
                             </td>
                           </tr>
@@ -120,31 +143,11 @@ export default function serviceWithReservations () {
             )}
           </>
         )}
-
-        {/* {loading ? ( <AppLoading /> ) : (
-          <>
-            { !roles.length ? ( <AppEmptyResponse /> ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {roles.map((item) => (
-                  <div key={item.id} className="card card-compact bg-base-100 shadow-xl">
-                    <div className="card-body">
-                      <h2 className="card-title">{item.name}</h2>
-
-                      <p>{item.description}</p>
-
-                      <div className="card-actions justify-end">
-                        <div className="join">
-                          
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )} */}
       </div>
+
+      <AppModal isOpen={ formModal } onClose={ closeModalForm }>
+        <ReservationForm data={ reservation } onClose={ closeModalForm } />
+      </AppModal>
     </>
   );
 }
