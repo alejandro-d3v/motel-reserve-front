@@ -1,11 +1,11 @@
 import { Card, DonutChart, Title } from "@tremor/react"
+import { useEffect, useState } from "react";
 
 import AppLoading from "../../../shared/components/AppLoading";
 
 import { ServiceWithReservationsDto } from "../../services/dtos/service.dto";
 
 import { GetServicesWithReservationsService } from "../services/getServicesWithReservations.service";
-import { useEffect, useState } from "react";
 
 const getServicesWithReservationsService = new GetServicesWithReservationsService();
 
