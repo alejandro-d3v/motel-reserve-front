@@ -86,7 +86,7 @@ export default function RoleAccess () {
                       { modules.map(item => <option key={item.id} value={item.id}>{item.name}</option>) }
                     </select>
                   </div>
-                  </div>
+                </div>
               </div>
 
               <div className="divider"></div>
