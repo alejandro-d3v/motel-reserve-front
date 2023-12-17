@@ -42,8 +42,8 @@ export default function AdminHome() {
             { !services.length ? ( <AppEmptyResponse /> ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {services.map((item) => (
-                  <Link to={`service-with-reservations/${item.id}`}>
-                    <div key={item.id} className="card card-compact bg-base-100 shadow-xl">
+                  <Link key={item.id} to={`service-with-reservations/${item.id}`}>
+                    <div className="card card-compact bg-base-100 shadow-xl">
                       <figure><img src={item.urlImg ?? imgTemp} style={{ height: '15rem', width: '100%' }} alt="img service" /></figure>
 
                       <div className="card-body">
