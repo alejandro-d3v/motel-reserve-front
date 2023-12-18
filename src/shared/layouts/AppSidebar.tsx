@@ -1,15 +1,21 @@
 import { Link } from 'react-router-dom';
 
+import './styles/AppSidebar.css';
+
 import { settings } from '../constant/settings.contants';
 
 import { useRoleStore } from '../stores/role.store';
 import { useAuthenticatedUserStore } from '../stores/authenticatedUserStore';
 
-import './styles/AppSidebar.css';
+import { UserPermissionsService } from '../services/userPermissions.service';
+
+const userPermissionsService = new UserPermissionsService();
 
 export default function AppSidebar({ isVisible  }: { isVisible: boolean }) {
   const { user } = useAuthenticatedUserStore();
   const { role } = useRoleStore();
+
+  const items = userPermissionsService.get().map(element => element.item);
 
   return (
     <div className={`sidebar bg-primary ${isVisible ? 'show' : ''} px-2 pt-3`}>
@@ -45,30 +51,39 @@ export default function AppSidebar({ isVisible  }: { isVisible: boolean }) {
         <h5 className='text-white text-opacity-50 font-bold uppercase'>General</h5>
 
         <ul className="menu px-0">
-          <li className='mb-0.5'>
-            <Link to="/admin/home" className='hover:bg-secondary'>
-              <div className='text-white'>Inicio</div>
-            </Link>
-          </li>
+          {(items.some(element => element.url == "/admin/home") || (role?.name == "Administrador")) && (
+            <li className='mb-0.5'>
+              <Link to="/admin/home" className='hover:bg-secondary'>
+                <div className='text-white'>Inicio</div>
+              </Link>
+            </li>
+          )}
 
-          <li>
-            <details>
-              <summary className='text-white hover:text-white hover:bg-white hover:bg-opacity-10'>Dashboards</summary>
+          {(items.some(element => element.itemId == 2) || (role?.name == "Administrador")) && (
+            <li>
+              <details>
+                <summary className='text-white hover:text-white hover:bg-white hover:bg-opacity-10'>Dashboards</summary>
 
-              <ul>
-                <li>
-                  <Link to="/admin/dashboard" className='hover:bg-secondary'>
-                    <div className='text-white'>Dashboard General</div>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/admin/reports" className='hover:bg-secondary'>
-                    <div className='text-white'>Reportes</div>
-                  </Link>
-                </li>
-              </ul>
-            </details>
-          </li>
+                <ul>
+                  {(items.some(element => element.url == "/admin/dashboard") || (role?.name == "Administrador")) && (
+                    <li>
+                      <Link to="/admin/dashboard" className='hover:bg-secondary'>
+                        <div className='text-white'>Dashboard General</div>
+                      </Link>
+                    </li>
+                  )}
+
+                  {(items.some(element => element.url == "/admin/reports") || (role?.name == "Administrador")) && (
+                    <li>
+                      <Link to="/admin/reports" className='hover:bg-secondary'>
+                        <div className='text-white'>Reportes</div>
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+              </details>
+            </li>
+          )}
         </ul>
       </div>
 
@@ -76,32 +91,41 @@ export default function AppSidebar({ isVisible  }: { isVisible: boolean }) {
         <h5 className='text-white text-opacity-50 font-bold uppercase'>Gestión</h5>
 
         <ul className="menu px-0">
-          <li>
-            <details>
-              <summary className='text-white hover:text-white hover:bg-white hover:bg-opacity-10' >
-                Administrar Usuarios
-              </summary>
+          {(items.some(element => element.itemId == 5) || (role?.name == "Administrador")) && (
+            <li>
+              <details>
+                <summary className='text-white hover:text-white hover:bg-white hover:bg-opacity-10' >
+                  Administrar Usuarios
+                </summary>
 
-              <ul>
-                <li>
-                  <Link to="/access/roles" className='hover:bg-secondary'>
-                    <div className='text-white'>Roles</div>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/access/users" className='hover:bg-secondary'>
-                    <div className='text-white'>Usuarios</div>
-                  </Link>
-                </li>
-              </ul>
-            </details>
-          </li>
+                <ul>
+                  {(items.some(element => element.url == "/access/roles") || (role?.name == "Administrador")) && (
+                    <li>
+                      <Link to="/access/roles" className='hover:bg-secondary'>
+                        <div className='text-white'>Roles</div>
+                      </Link>
+                    </li>
+                  )}
 
-          <li className='mb-0.5'>
-            <Link to="/admin-service" className='hover:bg-secondary'>
-              <div className='text-white'>Servicios</div>
-            </Link>
-          </li>
+                  {(items.some(element => element.url == "/access/users") || (role?.name == "Administrador")) && (
+                    <li>
+                      <Link to="/access/users" className='hover:bg-secondary'>
+                        <div className='text-white'>Usuarios</div>
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+              </details>
+            </li>
+          )}
+
+          {(items.some(element => element.url == "/admin-service") || (role?.name == "Administrador")) && (
+            <li className='mb-0.5'>
+              <Link to="/admin-service" className='hover:bg-secondary'>
+                <div className='text-white'>Servicios</div>
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </div>
