@@ -105,11 +105,13 @@ export default function Roles() {
                       <p>{item.description}</p>
 
                       <div className="card-actions justify-between">
-                        <Link to={`${item.id}/access`}>
-                          <button className="btn btn-sm join-item btn-outline btn-neutral">
-                            Accesos
-                          </button>
-                        </Link>
+                        { item.name === "Administrador" ? ( <div></div> ) : (
+                          <Link to={`${item.id}/access`}>
+                            <button className="btn btn-sm join-item btn-outline btn-neutral">
+                              Accesos
+                            </button>
+                          </Link>
+                        )}
 
                         <div className="join">
                           <button className="btn btn-sm join-item btn-outline btn-neutral" onClick={ () => openDeleteModal(item) }>

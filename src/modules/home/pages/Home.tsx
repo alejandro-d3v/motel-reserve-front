@@ -24,7 +24,8 @@ export default function Home() {
       setLoading(true);
 
       try {
-        setServices(await getServicesService.run());
+        const res = await getServicesService.run();
+        setServices(res.filter(item => item.status == 1));
 
         console.log('services', services);
       } catch (e) {

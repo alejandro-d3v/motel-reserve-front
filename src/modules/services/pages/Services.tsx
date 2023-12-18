@@ -97,7 +97,10 @@ export default function ServicesPage () {
                         <td className="p-3">{item.description}</td>
                         <td className="p-3 text-right">${Intl.NumberFormat().format(item.price ?? 0)}</td>
                         <td className="p-3 text-right">${Intl.NumberFormat().format(item.advancePayment ?? 0)}</td>
-                        <td className="p-3 text-center">{item.status}</td>
+                        <td className="p-3 text-center">
+                          {item.status == 1 && <div className="badge badge-neutral">Activo</div>}
+                          {item.status == 0 && <div className="badge badge-neutral badge-outline">Inactivo</div>}
+                        </td>
 
                         <td>
                           <div className="join">
