@@ -40,7 +40,7 @@ export default function ServicesForm ({ service }: IProps) {
       const dataSend: any = {
         name: data.name, 
         price: data.price ? parseFloat(data.price) : null,
-        status: 1,
+        status: data.isActive ? 1 : 0,
         description: data.description,
         advancePayment: data.advancePayment ? parseFloat(data.advancePayment) : null,
         longDescription: data.longDescription,
@@ -155,6 +155,22 @@ export default function ServicesForm ({ service }: IProps) {
               />
 
               {errors.advancePayment && <span className="text-red-600 text-right text-xs">{errors.advancePayment.message as any}</span>}
+            </div>
+
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Servicio activo?</span>
+              </label>
+
+              <div className="flex items-center h-12">
+                <input 
+                  type="checkbox" 
+                  className="toggle" 
+                  { ...register('isActive', {
+                    value: service?.status ? true : false,
+                  })}
+                />
+              </div>
             </div>
           </div>
 
